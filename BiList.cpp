@@ -25,7 +25,7 @@ BiList<T> *add(BiList<T> *h, const T &d)
 template < class T >
 BiList<T> *insert(BiList<T> *n, const T &d)
 {
-  return add(h->next, d);
+  return add(n->next, d);
 }
 
 template < class T >
@@ -58,12 +58,16 @@ BiList<T> *clear(BiList<T> *b, BiList<T> *e) noexcept
   if (b == nullptr) return e;
 
   BiList<T> *before = b->prev;
-
+  BiList<T> *start = b;
   while (b != e)
   {
     BiList<T> *temp = b->next;
     delete b;
     b = temp;
+    if(b == start)
+    {
+      break;
+    }
   }
 
   if (before != nullptr && b != nullptr) {
@@ -92,5 +96,26 @@ F traverse(F f, BiList<T> *b, BiList<T> *e)
 template< class T >
 BiList<T> *convert(const T* arr, size_t size)
 {
+  if (arr == nullptr || size == 0)
+  {
+    return nullptr;
+  }
 
+  BiList<T> *head = nullptr;
+
+  try
+  {
+    head = create(arr[0]);
+
+    for (size_t i = 1; i < size; ++i)
+    {
+        head = add(head, arr[i]);
+    }
+    return head;
+  }
+  catch (...)
+  {
+    clear(head, head);
+    throw;
+  }
 }
