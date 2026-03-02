@@ -55,7 +55,23 @@ BiList<T> *erase(BiList<T> *n) noexcept
 template < class T >
 BiList<T> *clear(BiList<T> *b, BiList<T> *e) noexcept
 {
+  if (b == nullptr) return e;
 
+  BiList<T> *before = b->prev;
+
+  while (b != e)
+  {
+    BiList<T> *temp = b->next;
+    delete b;
+    b = temp;
+  }
+
+  if (before != nullptr && b != nullptr) {
+    before->next = b;
+    b->prev = before;
+  }
+
+  return b;
 }
 
 template< class T, class F >
