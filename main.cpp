@@ -1,6 +1,5 @@
 #include <iostream>
 #include "BiList.h"
-#include "BiList.cpp"
 
 template <class T>
 void print(const T& val)
