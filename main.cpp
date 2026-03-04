@@ -2,7 +2,8 @@
 #include "BiList.h"
 #include "subfunctions.h"
 
-int main() {
+int main()
+{
 
   size_t size = 0;
   BiList<int> *list = nullptr;
