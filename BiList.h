@@ -130,7 +130,7 @@ F traverse(F f, BiList<T> *b, BiList<T> *e)
 }
 
 template< class T >
-BiList<T> *convert(const T* arr, size_t size)
+BiList<T> *convert(const T *arr, size_t size)
 {
   if (arr == nullptr || size == 0)
   {

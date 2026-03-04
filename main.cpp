@@ -1,26 +1,44 @@
 #include <iostream>
 #include "BiList.h"
-
-template <class T>
-void print(const T& val)
-{
-  std::cout << val << " ";
-}
-
-template <class T>
-struct Counter
-{
-  size_t count = 0;
-  void operator()(const T&)
-  {
-    ++count;
-  }
-};
+#include "subfunctions.h"
 
 int main() {
 
-  int arr[] = {5, 2, 8, 1, 9};
-  BiList<int>* list = convert(arr, 5);
+  size_t size = 0;
+  BiList<int> *list = nullptr;
+  int *arr = nullptr;
+  std::cin >> size;
+
+  try
+  {
+    arr = new int[size];
+    for (size_t i = 0; i < size; ++i)
+    {
+      std::cin >> arr[size - i - 1];
+      if (!std::cin)
+      {
+        std::cerr << "Unexpected input" << "\n";
+        delete[] arr;
+        return 3;
+      }
+    }
+  }
+  catch(const std::bad_alloc &e)
+  {
+    std::cerr << "Memory allocation error" << "\n";
+    return 2;
+  }
+
+  try
+  {
+    list = convert(arr, size);
+  }
+  catch(...)
+  {
+    std::cerr << "Error converting to list" << "\n";
+    delete[] arr;
+    return 1;
+  }
 
   std::cout << "Список: ";
   traverse(print<int>, list, list);
@@ -52,4 +70,7 @@ int main() {
   std::cout << "\n";
 
   list = clear(list, list);
+  delete[] arr;
+
+  return 0;
 }
