@@ -13,7 +13,7 @@ struct BiList
 template < class T >
 BiList<T> *create(const T &d)
 {
-  BiList<T> *h = new BiList<T>{d, nullptr, nullptr};
+  BiList<T> *h = new BiList<T>{d, nullptr, nullptr}; //конструктор копирования
   h->next = h;
   h->prev = h;
   return h;
@@ -26,7 +26,7 @@ BiList<T> *add(BiList<T> *h, const T &d)
   {
     return create(d);
   }
-  BiList<T> *newh = new BiList<T>{d, h, h->prev};
+  BiList<T> *newh = new BiList<T>{d, h, h->prev}; //конструктор копирования
   h->prev->next = newh;
   h->prev = newh;
   return newh;
@@ -43,7 +43,7 @@ BiList<T> *cut(BiList<T> *h) noexcept
 {
   if (h->next == h)
   {
-    delete h;
+    delete h; //деструктор по умолчанию
     return nullptr;
   }
   BiList<T> *subh = h->next;
@@ -70,7 +70,7 @@ BiList<T> *clear(BiList<T> *b, BiList<T> *e) noexcept
   {
     if (b->next == b)
     {
-      delete b;
+      delete b; //деструктор по умолчанию
       return nullptr;
     }
 
@@ -81,7 +81,7 @@ BiList<T> *clear(BiList<T> *b, BiList<T> *e) noexcept
     while (cur != nullptr)
     {
       BiList<T> *temp = cur->next;
-      delete cur;
+      delete cur; //деструктор по умолчанию
       cur = temp;
     }
 
@@ -92,7 +92,7 @@ BiList<T> *clear(BiList<T> *b, BiList<T> *e) noexcept
   while (b != e)
   {
     BiList<T> *temp = b->next;
-    delete b;
+    delete b; //деструктор по умолчанию
     b = temp;
   }
 
@@ -115,7 +115,7 @@ F traverse(F f, BiList<T> *b, BiList<T> *e)
     BiList<T>* start = b;
     for(; ; b = b->next)
     {
-      f(b->data);
+      f(b->data); //может вызываться конструктор копирования, если функтор принимает аргумент по значению
       if (b->next == start) break;
     }
     return f;
@@ -141,17 +141,17 @@ BiList<T> *convert(const T *arr, size_t size)
 
   try
   {
-    head = create(arr[0]);
+    head = create(arr[0]); //конструктор копирования
 
     for (size_t i = 1; i < size; ++i)
     {
-        head = add(head, arr[i]);
+        head = add(head, arr[i]); //конструктор копирования
     }
     return head;
   }
   catch (...)
   {
-    clear(head, head);
+    clear(head, head); //деструктор по умолчанию
     throw;
   }
 }
